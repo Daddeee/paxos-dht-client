@@ -5,19 +5,23 @@ import it.polimi.distsys.dht.DHTImpl;
 import it.polimi.distsys.paxos.utils.ThreadUtil;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class Main {
-    private static final int DEFAULT_TIMEOUT = 3000;
+    private static final int DEFAULT_TIMEOUT = 10000;
+    private static final int MAX_SLEEP_BETWEEN_TESTS = 1000;
     private static DHT dht;
     private static RandomString randomString;
-    private static int numThreads = 2;
-    private static int numTests = 2;
+    private static Random random;
+    private static int numThreads = 10;
+    private static int numTests = 10;
 
     public static void main(String [] args) {
         try {
             dht = new DHTImpl("localhost", 2019, "nodes.json");
             randomString = new RandomString(10);
+            random = new Random();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -32,6 +36,7 @@ public class Main {
         for(int i = 0; i < numTests; i++) {
             try {
                 putGetRemove();
+                Thread.sleep(random.nextInt(MAX_SLEEP_BETWEEN_TESTS));
             } catch (Exception e) {
                 System.out.println("ERROR RUNNING TESTS.");
                 e.printStackTrace();
