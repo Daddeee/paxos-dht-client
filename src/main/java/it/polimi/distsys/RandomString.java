@@ -16,6 +16,17 @@ public class RandomString {
         return new String(buf);
     }
 
+    public char nextChar() {
+        return symbols[random.nextInt(symbols.length)];
+    }
+
+    public String nextString(int l) {
+        char [] s = new char[l];
+        for(int idx = 0; idx < s.length; ++idx)
+            buf[idx] = symbols[random.nextInt(symbols.length)];
+        return new String(buf);
+    }
+
     public static final String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public static final String lower = upper.toLowerCase(Locale.ROOT);
